@@ -15,7 +15,7 @@ class User(db.Model):
     books = db.relationship('Book', backref='user')
 
     def __init__(self, username, password):
-        self.id = uuid4()
+        self.id = str(uuid4())
         self.username = username
         self.password = generate_password_hash(password)
 
@@ -59,7 +59,7 @@ class Book(db.Model):
     user_id = db.Column(db.String(64), db.ForeignKey('user.id'))
 
     def __init__(self, book_name, genre, desc):
-        self.id = uuid4()
+        self.id = str(uuid4())
         self.book_name = book_name
         self.genre = genre
         self.desc = desc
@@ -73,7 +73,7 @@ class Book(db.Model):
         db.session.commit()
 
     def update(self, **kwargs):
-        for key, value in kwargs.item():
+        for key, value in kwargs.items():
             if key == 'password':
                 setattr(self, key, generate_password_hash(value))
             else:
