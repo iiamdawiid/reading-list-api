@@ -27,12 +27,12 @@ def handle_register():
         }
         return password, 400
     
-    if isinstance(password, str):
-        user = User(username=username, password=password)
-        user.create()
-    else:
-        user = User(username=username, password=str(password))
-        user.create()
+    # if isinstance(password, str):
+    #     user = User(username=username, password=password)
+    #     user.create()
+    # else:
+    #     user = User(username=username, password=str(password))
+    #     user.create()
 
     existing_user = User.query.filter_by(username=username).one_or_none()
     if existing_user is not None:
@@ -41,12 +41,19 @@ def handle_register():
         }
         return response, 400
     
+    if not isinstance(password, str):
+        password = str(password)
+    
+    user = User(username=username, password=password)
+    user.create()
 
     response = {
         'message': 'user registered',
         'data': user.to_response()
     }
     return response, 201
+
+
 
 @auth.post('/login')
 def handle_login():
@@ -71,13 +78,6 @@ def handle_login():
             'message': 'password is required.'
         }
         return password, 400
-    
-    if isinstance(password, str):
-        user = User(username=username, password=password)
-        user.create()
-    else:
-        user = User(username=username, password=str(password))
-        user.create()
     
     user = User.query.filter_by(username=username).one_or_none()
     if user is None:
