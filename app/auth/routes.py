@@ -2,6 +2,7 @@ from .import auth_blueprint as auth
 from flask import request, make_response
 from ..models import User
 from flask_jwt_extended import create_access_token
+from datetime import timedelta
 
 @auth.post('/register')
 def handle_register():
@@ -93,7 +94,7 @@ def handle_login():
         }
         return response, 401
     
-    auth_token = create_access_token(identity=user.id)
+    auth_token = create_access_token(identity=user.id, expires_delta=timedelta(days=1))
 
     response = make_response({'message': 'successfully logged in'})
     response.headers['Authorization'] = f'Bearer {auth_token}'

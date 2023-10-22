@@ -24,3 +24,6 @@ def user_lookup_callback(_jwt_header, jwt_data):
 
 from .auth import auth_blueprint
 app.register_blueprint(auth_blueprint)
+
+from .readinglist import reading_list_blueprint
+app.register_blueprint(reading_list_blueprint)
