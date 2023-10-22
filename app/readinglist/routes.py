@@ -180,3 +180,32 @@ def handle_book_update(book_id):
         'message': 'book successfully updated'
     }
     return response, 200
+
+
+@r.put('/update/reading_list/<rl_id>')
+@jwt_required()
+def handle_rl_update(rl_id):
+    body = request.json
+
+    reading_list = ReadingList.query.filter_by(id=rl_id).one_or_none()
+
+    if reading_list is None:
+        response = {
+            'message': 'reading list not found'
+        }
+        return response, 404
+    
+    if reading_list.created_by != current_user.id:
+        response = {
+            'message': 'can not update a reading list that belongs to another user'
+        }
+        return response, 401
+    
+    reading_list.name = body.get('name', reading_list.name)
+
+    reading_list.update()
+
+    response = {
+        'message': 'reading list successfully updated'
+    }
+    return response, 200
