@@ -148,3 +148,35 @@ def handle_book_delete(book_id):
         'message': 'book successfully deleted'
     }
     return response, 200
+
+
+# add update book and update reading list
+@r.put('/update/book/<book_id>')
+@jwt_required()
+def handle_book_update(book_id):
+    body = request.json
+
+    book = Book.query.filter_by(id=book_id).one_or_none()
+
+    if book is None:
+        response = {
+            'message': 'book not found'
+        }
+        return response, 404
+    
+    if book.added_by != current_user.id:
+        response = {
+            'message': 'can not update a book that belongs to another user'
+        }
+        return response, 401
+    
+    book.book_name = body.get('book_name', book.book_name)
+    book.genre = body.get('genre', book.genre)
+    book.desc = body.get('desc', book.desc)
+
+    book.update()
+
+    response = {
+        'message': 'book successfully updated'
+    }
+    return response, 200
