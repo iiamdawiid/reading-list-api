@@ -14,7 +14,7 @@ from flask_jwt_extended import JWTManager
 jwt = JWTManager(app)
 
 from flask_cors import CORS
-CORS(app)
+CORS(app, supports_credentials=True)
 
 @jwt.user_identity_loader
 def user_identity_lookup(id):
