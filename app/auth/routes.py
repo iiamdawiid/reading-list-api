@@ -89,6 +89,6 @@ def handle_login():
     
     auth_token = create_access_token(identity=user.id, expires_delta=timedelta(days=1))
 
-    response = make_response({'message': 'successfully logged in', 'token': auth_token})
+    response = make_response({'message': 'successfully logged in', 'token': auth_token, 'user': user.to_response()})
     response.headers['Authorization'] = f'Bearer {auth_token}'
     return response, 200
