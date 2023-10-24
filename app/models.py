@@ -83,7 +83,8 @@ class ReadingList(db.Model):
                 'created_at': self.created_at,
                 'updated_at': self.updated_at,
                 'name': self.name,
-                'created_by': self.created_by,
+                # 'created_by': self.created_by,
+                'created_by': self.user.username,
                 'books': [book.to_response() for book in self.books]
             }
 
