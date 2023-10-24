@@ -7,4 +7,4 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # new to this project - FLASK JWT EXTENDED
     JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
-    JWT_TOKEN_LOCATION = [os.environ.get('JWT_TOKEN_LOCATION')]
+    JWT_TOKEN_LOCATION = ['headers', 'json']

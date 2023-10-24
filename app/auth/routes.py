@@ -27,13 +27,6 @@ def handle_register():
             'message': 'password is required.'
         }
         return password, 400
-    
-    # if isinstance(password, str):
-    #     user = User(username=username, password=password)
-    #     user.create()
-    # else:
-    #     user = User(username=username, password=str(password))
-    #     user.create()
 
     existing_user = User.query.filter_by(username=username).one_or_none()
     if existing_user is not None:
@@ -96,6 +89,6 @@ def handle_login():
     
     auth_token = create_access_token(identity=user.id, expires_delta=timedelta(days=1))
 
-    response = make_response({'message': 'successfully logged in'})
+    response = make_response({'message': 'successfully logged in', 'token': auth_token})
     response.headers['Authorization'] = f'Bearer {auth_token}'
     return response, 200
