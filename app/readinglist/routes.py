@@ -204,6 +204,7 @@ def handle_rl_update(rl_id):
         return response, 401
     
     reading_list.name = body.get('name', reading_list.name)
+    reading_list.description = body.get('description', reading_list.description)
 
     reading_list.update()
 
