@@ -21,8 +21,10 @@ def handle_create_rl():
             'message': 'invalid response'
         }
         return response, 400
+    
+    description = body.get('description')
 
-    reading_list = ReadingList(name=name, created_by=current_user.id)
+    reading_list = ReadingList(name=name, description=description, created_by=current_user.id)
     reading_list.create()
 
     response = {
