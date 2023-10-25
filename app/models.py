@@ -55,13 +55,15 @@ class ReadingList(db.Model):
         created_at = db.Column(db.DateTime, default = datetime.utcnow)
         updated_at = db.Column(db.DateTime, default = datetime.utcnow, onupdate = datetime.utcnow)
         name = db.Column(db.String(50), nullable = False)
+        description = db.Column(db.String(250), nullable = True)
         created_by = db.Column(db.String(64), db.ForeignKey('user.id'), nullable = False)
 
         books = db.relationship('Book', backref='readinglist')
 
-        def __init__(self, name, created_by):
+        def __init__(self, name, description, created_by):
             self.id = str(uuid4())
             self.name = name
+            self.description = description
             self.created_by = created_by
 
         def create(self):
@@ -83,7 +85,7 @@ class ReadingList(db.Model):
                 'created_at': self.created_at,
                 'updated_at': self.updated_at,
                 'name': self.name,
-                # 'created_by': self.created_by,
+                'description': self.description,
                 'created_by': self.user.username,
                 'books': [book.to_response() for book in self.books]
             }
